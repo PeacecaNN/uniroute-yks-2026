@@ -1,0 +1,56 @@
+# UniRoute + YÖK Atlas Tam Veri Entegrasyonu
+
+Bu paket `output.rar` ve `output alt panel.rar` verilerinin temizlenmiş,
+birleştirilmiş ve Vercel'e uygun hâlidir.
+
+## Neler eklendi?
+
+- 21.493 programın 2026 YÖK Atlas temel verisi
+- 19.280 programın son yerleşen netleri
+- Kontenjan türleri ve yerleşen sayıları
+- Öğretim elemanı dağılımları
+- Özel koşul açıklamaları
+- YÖK Atlas ve akademik kadro bağlantıları
+- Program satırında `YÖK Atlas detayını aç` düğmesi
+- `/api/program-detail/:code` API uç noktası
+
+## Veri yapısı
+
+```text
+data/yokatlas/
+├── manifest.json
+├── program-index.json.gz
+└── details/
+    ├── 100.json.gz
+    ├── 101.json.gz
+    └── ...
+```
+
+Arama sırasında yalnız küçük program indeksi yüklenir. Kullanıcı detay düğmesine
+basınca yalnız o program kodunun bulunduğu üç haneli veri paketi okunur.
+
+## GitHub/Vercel'e koyma
+
+Bu ZIP'in içindeki `uniroute-yokatlas-entegre` klasörünün içeriğini mevcut
+GitHub deposunun köküne kopyala. Dosya değiştirme sorusunu onayla.
+
+Sonra GitHub Desktop:
+1. Changes bölümünde tüm dosyaları kontrol et.
+2. Summary alanına `YOK Atlas tam veri entegrasyonu` yaz.
+3. Commit to main.
+4. Push origin.
+
+Vercel GitHub'a bağlıysa yeni deployment otomatik başlar.
+
+## Test adresleri
+
+Yerelde veya yayında:
+
+```text
+/api
+/api/search?q=bilgisayar
+/api/program/203910363
+/api/program-detail/203910363
+```
+
+`/api/program-detail/<kod>` tam detay JSON'unu verir.

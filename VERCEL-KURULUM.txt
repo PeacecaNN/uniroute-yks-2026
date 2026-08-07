@@ -1,0 +1,77 @@
+UNIROUTE — SADECE VERCEL İLE YAYINLAMA
+======================================
+
+BU PAKETTE RENDER YOKTUR.
+Site ve API aynı Vercel projesinde çalışır.
+
+1) ZIP dosyasını bilgisayarında ayıkla.
+
+2) GitHub'da yeni, boş bir repository oluştur:
+   Repository name: uniroute-vercel
+
+3) GitHub repository içinde:
+   Add file > Upload files
+   seçeneğine gir.
+
+4) ZIP'in kendisini yükleme. Ayıkladığın klasörün İÇİNDEKİ şu öğeleri yükle:
+   app
+   data
+   lib
+   package.json
+   next.config.ts
+   tsconfig.json
+   .gitignore
+   .env.example
+   ve diğer küçük dosyalar
+
+   GitHub ana sayfasında doğrudan app, data, lib ve package.json görünmelidir.
+
+5) Vercel'e GitHub hesabınla giriş yap.
+
+6) Add New > Project yoluna gir.
+
+7) uniroute-vercel repository'sinin yanındaki Import butonuna bas.
+
+8) Ayarlar:
+   Framework Preset: Next.js
+   Root Directory: boş bırak / repository kökü
+   Build Command: değiştirme
+   Output Directory: değiştirme
+
+9) Environment Variables bölümünü aç.
+
+   Name:
+   GOOGLE_MAPS_API_KEY
+
+   Value:
+   Google Cloud'daki AIza... ile başlayan kendi anahtarın
+
+   Anahtarı GitHub'a, .env.example dosyasına veya kaynak koda yazma.
+
+10) Deploy butonuna bas.
+
+11) Yayın bitince Vercel sana şöyle bir adres verir:
+    https://uniroute-vercel-....vercel.app
+
+12) Kontrol:
+    Site:
+    https://SENIN-ADRESIN.vercel.app
+
+    API durumu:
+    https://SENIN-ADRESIN.vercel.app/api
+
+    API durumunda total: 21493 benzeri bir değer görünmelidir.
+
+GOOGLE CLOUD'DA AÇIK OLMASI GEREKEN API'LER
+-------------------------------------------
+- Routes API
+- Geocoding API
+- Places API (New)
+
+ÖNEMLİ
+------
+- Render kullanılmaz.
+- NEXT_PUBLIC_API_URL eklenmez.
+- FRONTEND_URL eklenmez.
+- Site ve API aynı Vercel adresinde çalışır.
+- Vercel'e yalnız GOOGLE_MAPS_API_KEY eklenir.
