@@ -185,6 +185,20 @@ const DEFAULT_ORIGIN: Origin = {
   label: "Sefaköy / İstanbul",
 };
 
+const SAVED_LOCATIONS = [
+  {
+    name: "Sefaköy",
+    label: "Sefaköy / İstanbul",
+    address: "Sefaköy, Küçükçekmece, İstanbul, Türkiye",
+  },
+  {
+    name: "Kurşun Kalem",
+    label: "Kurşun Kalem",
+    address:
+      "Kartaltepe, Halkalı Cd 94 A, 34295 Küçükçekmece/İstanbul, Türkiye",
+  },
+] as const;
+
 function cleanKey(value: string) {
   return value.replace(/^\uFEFF/, "").trim().toLocaleLowerCase("tr-TR");
 }
@@ -778,6 +792,49 @@ export default function Home() {
     }
   }
 
+  async function selectSavedLocation(location: (typeof SAVED_LOCATIONS)[number]) {
+    setGeocoding(true);
+    setAddressSuggestions([]);
+    setActiveAddressSuggestion(-1);
+    setMessage(`${location.name} konumu haritada açılıyor...`);
+
+    try {
+      const response = await fetch(
+        `${API_BASE}/geocode?address=${encodeURIComponent(location.address)}`
+      );
+      const data = (await response.json()) as GeocodeResponse;
+
+      if (
+        !response.ok ||
+        !data.status ||
+        !Number.isFinite(data.lat) ||
+        !Number.isFinite(data.lng)
+      ) {
+        throw new Error(data.message || `${location.name} konumu bulunamadı.`);
+      }
+
+      const lat = Number(data.lat);
+      const lng = Number(data.lng);
+
+      setOrigin({ lat, lng, label: location.label });
+      skipNextAddressAutocompleteRef.current = true;
+      setAddressQuery(location.address);
+      markerRef.current?.setLatLng([lat, lng]);
+      mapRef.current?.setView([lat, lng], 16);
+      invalidateRoutes();
+      addressSessionTokenRef.current = "";
+      setMessage(`${location.name} başlangıç konumu olarak seçildi. Rotaları yeniden hesapla.`);
+    } catch (error) {
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : `${location.name} konumu açılırken bir hata oluştu.`
+      );
+    } finally {
+      setGeocoding(false);
+    }
+  }
+
   async function searchAddress() {
     if (addressSuggestions.length > 0) {
       const index =
@@ -1104,6 +1161,22 @@ export default function Home() {
                 >
                   {geocoding ? "Açılıyor..." : "Adresi seç"}
                 </button>
+              </div>
+              <div className="saved-locations" aria-label="Hazır başlangıç konumları">
+                <span className="saved-locations-label">Hızlı konum:</span>
+                {SAVED_LOCATIONS.map((location) => (
+                  <button
+                    type="button"
+                    className={`saved-location-button${
+                      origin.label === location.label ? " is-active" : ""
+                    }`}
+                    key={location.name}
+                    onClick={() => void selectSavedLocation(location)}
+                    disabled={geocoding}
+                  >
+                    📍 {location.name}
+                  </button>
+                ))}
               </div>
               <small className="location-current-label">
                 Aktif konum: {origin.label}
