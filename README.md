@@ -1,6 +1,6 @@
-# UniRoute — Vercel Full-Stack
+# UniRoute — V2 Beta
 
-Bu sürümde Next.js arayüzü ve API aynı Vercel projesinde çalışır.
+Bu uygulama sayesinde Üniversite tercihlerinizi yaparken fazlasıyla yer, konum, puan vb şeyleri kolay şekilde görüp seçeceğiniz konumdan nasıl gideceğiniz, hangi ulaşım araçlarını kullanacağınız yazar.
 
 ## Yapı
 
@@ -19,12 +19,3 @@ npm.cmd run dev
 Site: `http://localhost:3000`
 API: `http://localhost:3000/api`
 
-Yerel Google rota özellikleri için `.env.local` oluştur:
-
-```env
-GOOGLE_MAPS_API_KEY=AIza...
-```
-
-## Vercel
-
-Ayrıntılı adımlar için `VERCEL-KURULUM.txt` dosyasını aç.
